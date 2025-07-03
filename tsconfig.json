@@ -1,16 +1,20 @@
 {
     "compilerOptions": {
-        "target": "ES2020",
-        "module": "ESNext",
-        "declaration": true,
-        "outDir": "dist",
-        "moduleResolution": "Node",
-        "esModuleInterop": true,
-        "strict": true,
-        "skipLibCheck": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "baseUrl": "."
+        "target": "ES2020", // Good for modern Node.js
+        "module": "ESNext", // OK since you're using `"type": "module"` in package.json
+        "declaration": true, // Required to generate .d.ts files
+        "outDir": "dist", // Output folder for build
+        "moduleResolution": "Node", // Required for resolving node_modules
+        "esModuleInterop": true, // Allows default imports from CommonJS modules
+        "forceConsistentCasingInFileNames": true, // Prevents case-sensitive bugs
+        "strict": true, // Enforces strict typing
+        "skipLibCheck": true, // Speeds up build
+        "emitDecoratorMetadata": true, // Needed for NestJS and DI
+        "experimentalDecorators": true, // Needed for NestJS and class-transformers
+        "baseUrl": ".", // Base path for module resolution
+        "resolveJsonModule": true, // Allow importing `.json` files
+        "allowSyntheticDefaultImports": true // Useful for interop with older modules
     },
-    "include": ["src"]
+    "include": ["src"],
+    "exclude": ["dist", "node_modules", "**/*.test.ts"]
 }
