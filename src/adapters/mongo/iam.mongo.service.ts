@@ -22,6 +22,8 @@ export class MongoIamRepository implements IIamRepository {
     constructor(private readonly mongooseInstance: typeof mongoose) {
         if (this.mongooseInstance.connection.readyState !== 1) {
             throw new Error("MongoDB connection is not established");
+        } else {
+            console.log("MongoDB connection is established");
         }
 
         this.ResourceModel = getResourceModel(this.mongooseInstance.connection);
@@ -141,30 +143,40 @@ export class MongoIamRepository implements IIamRepository {
     }
 
     async addPermissionToRole(
-        roleName: string,
-        permissionName: string
+        roleId: string,
+        permissionId: string
     ): Promise<void> {
-        const role = await this.RoleModel.findOne({ name: roleName });
+        const role = await this.RoleModel.findOne({ _id: roleId });
+
+        if (!role) {
+            throw new Error(`Role with ID ${roleId} not found`);
+        }
+
         if (
             role &&
             !role.permissions
                 .map((p: any) => p.toString())
-                .includes(permissionName)
+                .includes(permissionId)
         ) {
             role.permissions.push(
-                Types.ObjectId.createFromHexString(permissionName)
+                Types.ObjectId.createFromHexString(permissionId)
             );
             await role.save();
         }
     }
 
     async removePermissionFromRole(
-        roleName: string,
-        permissionName: string
+        roleId: string,
+        permissionId: string
     ): Promise<void> {
-        const role = await this.RoleModel.findOne({ name: roleName }).exec();
+        const role = await this.RoleModel.findOne({ name: roleId }).exec();
+
+        if (!role) {
+            throw new Error(`Role with ID ${roleId} not found`);
+        }
+
         if (role) {
-            role.permissions.pull(permissionName);
+            role.permissions.pull(permissionId);
             await role.save();
         }
     }

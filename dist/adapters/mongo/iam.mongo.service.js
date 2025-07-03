@@ -8,6 +8,9 @@ export class MongoIamRepository {
         if (this.mongooseInstance.connection.readyState !== 1) {
             throw new Error("MongoDB connection is not established");
         }
+        else {
+            console.log("MongoDB connection is established");
+        }
         this.ResourceModel = getResourceModel(this.mongooseInstance.connection);
         this.PermissionModel = getPermissionModel(this.mongooseInstance.connection);
         this.RoleModel = getRoleModel(this.mongooseInstance.connection);
