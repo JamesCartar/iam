@@ -112,17 +112,20 @@ export class IamService implements IIamService {
     }
 
     async addPermissionToRole(
-        roleName: string,
-        permissionName: string
+        roleId: string,
+        permissionId: string
     ): Promise<void> {
-        throw new Error("Not implemented");
+        return this.mongoRepository.addPermissionToRole(roleId, permissionId);
     }
 
     async removePermissionFromRole(
-        roleName: string,
-        permissionName: string
+        roleId: string,
+        permissionId: string
     ): Promise<void> {
-        throw new Error("Not implemented");
+        return this.mongoRepository.removePermissionFromRole(
+            roleId,
+            permissionId
+        );
     }
 
     // User-role binding methods
